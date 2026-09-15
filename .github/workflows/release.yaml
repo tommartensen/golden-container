@@ -25,7 +25,7 @@ jobs:
       digest: ${{ steps.push-image.outputs.digest }}
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
     - name: Install Cosign
       uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
@@ -42,7 +42,7 @@ jobs:
 
     - name: Buildah Action
       id: build-image
-      uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
+      uses: redhat-actions/buildah-build@9dc2ade9b5db229966b5025ae266311e12f349c4 # v2
       with:
         image: ${{ env.IMAGE_REPO }}
         tags: ${{ env.IMAGE_TAGS }}
@@ -50,7 +50,7 @@ jobs:
 
     - name: Push to ghcr
       id: push-image
-      uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2
+      uses: redhat-actions/push-to-registry@5860fc963bf8f2b3221773a023141612f010c469 # v2
       with:
         registry: ${{ env.IMAGE_REGISTRY }}
         image: ${{ steps.build-image.outputs.image }}
@@ -74,7 +74,7 @@ jobs:
       actions: read # for detecting the Github Actions environment.
       id-token: write # for creating OIDC tokens for signing.
       packages: write # for uploading attestations.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0 
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@f7dd8c54c2067bafc12ca7a55595d5ee9b75204a # v2.1.0 
     with:
       image: ${{ needs.build.outputs.image }}
       digest: ${{ needs.build.outputs.digest }}
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate image
-        uses: conforma/action-validate-image@v1.0.419
+        uses: conforma/action-validate-image@af7a6e9cb64a47f35e64268fcdee06803a0a655c # v1.0.419
         with:
           image: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
           identity: https:\/\/github\.com\/(slsa-framework\/slsa-github-generator|${{ github.repository_owner }}\/${{ github.event.repository.name }})\/
